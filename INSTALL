@@ -1,3 +1,8 @@
+Prerequisites:
+- PHP 5.3.x
+- MySQL
+- PHP extensions: curl (for Facebook), openssl (for HTTPS-Support), mysql
+
 1) fill in your configuration and rename configTEMPLATE.inc.php to config.inc.php
 2) run setup.sql on your SQL Database
 3) set permissions to write for your web server for the directories 'tmp' and 'tmp/images'
