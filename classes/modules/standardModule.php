@@ -78,33 +78,21 @@ class standardModule extends Module{
 	
 	
 	private function toFbTime($time, $eventTZ = null) {
-		/*
-		 * because facebook is stupid the time of the event displayed is the same for each user, 
-		 * regardless of his time zone.
-		 */
-		
+
+		# Facebook has UTC as default
 		date_default_timezone_set('UTC');
 		
+		# this interprets the event's time in (UTC)
 		$timestamp = strtotime($time);
 		
-		if ( !isset($eventTZ) && $this->sub->getFinalTimezone() ) {
-			//assume event time is in UTC and that the user
-			// wants his event time displayed in the calendar timezone (presumably
-			// his local timezone) and not in UTC. Thus we calculate the offset.
-			$calTz = new DateTimeZone($this->sub->getFinalTimezone());
+		# if event has a timezone set adjust to UTC
+		if (isset($eventTZ)) {
+			$calTz = new DateTimeZone($eventTZ);
 			$datetime = new DateTime("@$timestamp");
 			$tzOffset = timezone_offset_get($calTz, $datetime);
-			$timestamp += $tzOffset;
+			$timestamp -= $tzOffset;
 		}
 		
-		//adjust for newest facebook bug.. 
-		//adds 7 or 8 hours (depending on whether it's daylight saving time over in sunny California) to the timestamp
-		$californiaTz = new DateTimeZone('America/Los_Angeles');
-		$datetime = new DateTime("@$timestamp");
-		$tzOffset = timezone_offset_get($californiaTz, $datetime);
-		$timestamp -= $tzOffset;
-		
-		//return date("c", $timestamp); //output in ISO 8601, e.g. 2004-02-12T15:19:21+00:00
 		return $timestamp;
 	}
 }
