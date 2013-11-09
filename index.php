@@ -14,6 +14,12 @@ if ($fbUserId) {
 
 	if (!$config['debugWithoutFacebook']) {
 		$token = $facebook->getAccessToken();
+		if ($token) {
+			// get long-lived access token
+			if ($facebook->setExtendedAccessToken()) {
+				$token = $facebook->getAccessToken();
+			}
+		}
 		$database->storeAccessToken($token, $fbUserId);
 	}
 	

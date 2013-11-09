@@ -32,8 +32,8 @@ class Publisher {
 			$fbEventArray = array(
 			    'name' => $row->fbName,
 			    'description' => $row->fbDescription,
-			    'start_time' => $row->fbStartTime,
-			    'end_time' => $row->fbEndTime,
+			    'start_time' => date('c',$row->fbStartTime),
+			    'end_time' => date('c',$row->fbEndTime),
 			    'location' => $row->fbLocation,
 			    'privacy_type' => $row->fbPrivacy, //or 'privacy' ?
 			    'access_token' => $token,
