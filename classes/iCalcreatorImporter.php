@@ -14,7 +14,7 @@ class iCalcreatorImporter extends Importer {
 		global $config;
 		global $database;
 
-		$rawdata = @file_get_contents($calUrl, NULL, NULL, NULL, $config['maxiCalFileLength']);
+		$rawdata = file_get_contents($calUrl, NULL, NULL, NULL, $config['maxiCalFileLength']);
 		
 		if ($rawdata === false)
 			throw new Exception("Could not download iCalendar-file from ".$calUrl);

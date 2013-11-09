@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Calendar to Facebook</title>
+		<title>iCalendar to Facebook Importer</title>
 		<meta charset="utf-8">
 		<link type="text/css" rel="stylesheet" href="assets/styles.css" />
 		
@@ -13,7 +13,7 @@
 	<body>
 			<div class="topBar">
 				<div class="titleBar">
-					<div id="uberTitle"><a href="http://www.facebook.com/apps/application.php?id=164414672850">iCalendar to Event</a></div>
+					<div id="uberTitle"><a href="http://www.facebook.com/apps/application.php?id=569405306473689">iCalendar to Facebook Importer</a></div>
 					<ul class="topMenu">
 						<li><a href="index.php?action=showSubscriptionList">Subscriptions List</a></li>
 						<li><a href="index.php?action=showDocs">Docs</a></li>

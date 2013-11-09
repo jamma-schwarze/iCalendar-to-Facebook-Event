@@ -141,7 +141,7 @@ if ( isset($_GET['error']) ) {
                 <div class="property">
                         <div class="label">Append Link&#58;
                                 <div class="floatdiv">
-                                <input class="checkbox" type="checkbox" name="moduleAppendWebsiteUrl" value="<?php echo $moduleAppendWebsiteUrl; ?>" />
+                                <input class="checkbox" type="checkbox" name="moduleAppendWebsiteUrl" value="<?php #echo $moduleAppendWebsiteUrl; ?>" />
                                 <p>If some events in your iCalendar file have a URL to a Website specified, append that to the event-description on Facebook.</p>
                                 </div>
                         </div>
