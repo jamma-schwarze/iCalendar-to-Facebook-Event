@@ -19,7 +19,7 @@ try {
 	if ( !isset($_POST['iCalendarUrl']) || mb_strlen($_POST['iCalendarUrl']) == 0 
 		   || ! preg_match($urlregex, trim($_POST['iCalendarUrl'])) ) {
 		
-		throw new Exception("You need to enter a valid URL starting with http://");
+		throw new Exception("You need to enter a valid URL starting with http://, https:// or ftp://");
 	}
 	
 	
@@ -29,6 +29,8 @@ try {
 	
 	$subId = $database->insertSubscription($_POST['subName'], $fbUserId, $_POST['iCalendarUrl'], $_POST['pageId'], $_POST['imageProperty']);
 	
+	updatePageAccessToken ($subId, $fbUserId);
+
 	$controller->updateSub($subId);
 	
 	//send user to subscription list

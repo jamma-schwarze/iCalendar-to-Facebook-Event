@@ -445,6 +445,19 @@ class Database {
 		$STH->execute($data);
 	}
 	
+	public function updatePageAccessToken ($subId, $fbUserId, $fbPageAccessToken) {
+		
+		$STH = $this->DBH->prepare("
+			UPDATE subscriptions
+			SET fbPageAccessToken = ?
+			WHERE subId = ? AND fbUserId = ?
+		");
+		
+		$data = Array($fbPageAccessToken, $subId, $fbUserId);
+
+		$STH->execute($data);
+	}
+	
 	public function deleteSubscription($subId) {
 		
 		$STH = $this->DBH->prepare("

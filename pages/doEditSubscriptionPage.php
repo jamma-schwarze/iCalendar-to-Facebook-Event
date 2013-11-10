@@ -4,6 +4,8 @@ try {
 	
 	$database->updateSubscriptionData($_POST, $fbUserId);
 	
+	updatePageAccessToken ($_POST['subId'], $fbUserId);
+
 	$msg = urlencode('Subscription was changed successfully!');
 	header("Location: " . 'index.php?action=showSubscriptionList&success=1&successMsg=' . $msg);
 	

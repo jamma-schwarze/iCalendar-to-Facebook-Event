@@ -56,4 +56,57 @@ $facebook = new Facebook(array(
 	));
 
 
+/* Utility function to get page access token and store it in database.
+ *
+ * If the subscription is not a page, this function does nothing.
+ */
+function updatePageAccessToken ($subId, $fbUserId) {
+	global $database, $facebook, $access_token;
+
+	$sub = $database->getSubscription($subId, $fbUserId);
+
+	# refresh page access token for pages
+	if (isset ($sub->fbPageId) && !empty($sub->fbPageId)) {
+		$fbPageId = $sub->fbPageId;
+		$fbPageAccessToken = null;
+		try
+		{
+			$userPages = $facebook->api('/me/accounts', 'GET', $access_token);
+			# data looks like this:
+			# [
+			#     {
+			#          "id": "192896444056133"
+			#          "category": "Consulting/business services", 
+			#          "category_list": [
+			#            {  "id": "176831012360626", "name": "Professional Services" }
+			#                 ], 
+			#          "name": "Lichtzentrum des schwarzen Lotus des Ostens", 
+			#          "access_token": "XYYZZ...",
+			#          "perms": [ "ADMINISTER", "EDIT_PROFILE", "CREATE_CONTENT", "MODERATE_CONTENT", "CREATE_ADS", "BASIC_ADMIN" ],
+			#     }, ... ]
+			foreach ($userPages['data'] as $page)
+			{
+				if ($page['id'] == $fbPageId)
+				{
+					# check required permissions
+					if (! (in_array("CREATE_CONTENT", $page['perms'])
+						|| in_array("ADMINISTER", $page['perms'])))
+						throw Exception("You do not have enough priviledges to create content for page ".$page['name']."!");
+					$fbPageAccessToken = $page['access_token'];
+					break;
+				}
+			}
+
+		}
+		catch (FacebookApiException $e)
+		{
+			$logger->error("Could not get page access token.", $e);
+		}
+
+		if ($fbPageAccessToken != null) {
+			$database->updatePageAccessToken ($subId, $fbUserId, $fbPageAccessToken);
+		}
+	}
+}
+
 ?>

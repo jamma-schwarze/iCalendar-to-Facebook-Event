@@ -21,7 +21,7 @@ CREATE TABLE log (
 CREATE TABLE users (
 	fbUserId BIGINT NOT NULL,
 	PRIMARY KEY(fbUserId),
-	fbAccessToken VARCHAR(255)
+	fbAccessToken VARCHAR(65000)
 ) ENGINE=InnoDB;
 
 
@@ -32,6 +32,7 @@ CREATE TABLE subscriptions (
 	fbUserId BIGINT NOT NULL,
 	calUrl VARCHAR(255) NOT NULL,
 	fbPageId BIGINT NOT NULL,
+	fbPageAccessToken VARCHAR(65000),
 	imageProperty VARCHAR(255),
 	lastSuccessfulImportTimestamp INT NOT NULL,
 	lastSuccessfulPublishTimestamp INT NOT NULL,
