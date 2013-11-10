@@ -21,6 +21,8 @@ if ($fbUserId) {
 			}
 		}
 		$database->storeAccessToken($token, $fbUserId);
+		# for FB API calls
+		$access_token = array('access_token' => $token);
 	}
 	
 	$propagateExceptions = true;
@@ -52,14 +54,14 @@ if ($fbUserId) {
 				require 'pages/doActivatePage.php';
 				break;
 			case "showDocs":
-					require "pages/showDocs.php";
-					break;
+				require "pages/showDocs.php";
+				break;
 			case "showPolicy":
-					require "pages/showPolicy.php";
-					break;
+				require "pages/showPolicy.php";
+				break;
 			case "showPricing":
-					require "pages/showPricing.php";
-					break;
+				require "pages/showPricing.php";
+				break;
 			default:
 				//if $action == "showSubscriptionList"
 				require 'pages/subscriptionListPage.php';
