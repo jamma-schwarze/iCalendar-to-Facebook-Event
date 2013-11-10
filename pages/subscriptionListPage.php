@@ -54,6 +54,8 @@ if( isset($_GET['success']) ) {
 
 <h2>Your Subscriptions</h2>
 
+<p>Note: The subscriptions are not yet updated automatically! You need to access this page and hit "Update now".</p>
+
 <table class="subTable">
 	<thead>
 		<tr>
