@@ -42,15 +42,12 @@ if( isset($_GET['editSub']) && isset($_GET['subId']) ) {
 
 if(!$editSub) {
 	//get the pages of the user
-	$token = array(
-		'access_token' => $database->getAccessToken($fbUserId)
-	);
 	try {
-		$userPages = $facebook->api('/me/accounts', 'GET', $token);
+		$userPages = $facebook->api('/me/accounts', 'GET', $access_token);
 		
 		//get groups
 		try {
-			$userGroups = $facebook->api('/me/groups', 'GET', $token);
+			$userGroups = $facebook->api('/me/groups', 'GET', $access_token);
 			
 			$userPagesLoaded = true;
 			

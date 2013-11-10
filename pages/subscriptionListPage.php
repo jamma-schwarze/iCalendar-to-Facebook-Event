@@ -5,13 +5,9 @@ $subs = $database->selectSubscriptions($fbUserId);
 include 'headerInclude.php';
 
 
-
-$token = array(
-	'access_token' => $database->getAccessToken($fbUserId)
-);
 try {
-	$userPages = $facebook->api('/me/accounts', 'GET', $token);
-	$userGroups = $facebook->api('/me/groups', 'GET', $token);
+	$userPages = $facebook->api('/me/accounts', 'GET', $access_token);
+	$userGroups = $facebook->api('/me/groups', 'GET', $access_token);
 	$userPagesLoaded = true;
 	
 	$pageNames = array();
@@ -34,12 +30,12 @@ try {
 
 if( isset($_GET['success']) ) {
 	echo '<div class="successBox">';
-	echo $_GET['successMsg'];
+	echo htmlentities($_GET['successMsg']);
 	echo '</div>';
 } elseif( isset($_GET['error']) ) {
 	echo '<div class="errorBox">';
 	echo '	<p>There has been an error.</p>';
-	echo $_GET['errorMsg'];
+	echo htmlentities($_GET['errorMsg']);
 	
 	if ( isset($_GET['showUnsubscribeAnywayButton']) && $_GET['subId']) {
 		?>
