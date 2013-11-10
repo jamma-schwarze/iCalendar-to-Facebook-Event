@@ -71,32 +71,9 @@ function updatePageAccessToken ($subId, $fbUserId) {
 		$fbPageAccessToken = null;
 		try
 		{
-			$userPages = $facebook->api('/me/accounts', 'GET', $access_token);
-			# data looks like this:
-			# [
-			#     {
-			#          "id": "192896444056133"
-			#          "category": "Consulting/business services", 
-			#          "category_list": [
-			#            {  "id": "176831012360626", "name": "Professional Services" }
-			#                 ], 
-			#          "name": "Lichtzentrum des schwarzen Lotus des Ostens", 
-			#          "access_token": "XYYZZ...",
-			#          "perms": [ "ADMINISTER", "EDIT_PROFILE", "CREATE_CONTENT", "MODERATE_CONTENT", "CREATE_ADS", "BASIC_ADMIN" ],
-			#     }, ... ]
-			foreach ($userPages['data'] as $page)
-			{
-				if ($page['id'] == $fbPageId)
-				{
-					# check required permissions
-					if (! (in_array("CREATE_CONTENT", $page['perms'])
-						|| in_array("ADMINISTER", $page['perms'])))
-						throw Exception("You do not have enough priviledges to create content for page ".$page['name']."!");
-					$fbPageAccessToken = $page['access_token'];
-					break;
-				}
-			}
-
+			# fetch access token directly
+			$page = $facebook->api("/$fbPageId?fields=access_token", 'GET', $access_token);
+			$fbPageAccessToken = $page['access_token'];
 		}
 		catch (FacebookApiException $e)
 		{
