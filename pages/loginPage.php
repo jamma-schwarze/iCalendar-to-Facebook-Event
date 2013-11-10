@@ -11,7 +11,7 @@
 $loginUrl = $facebook->getLoginUrl(array(
 	'canvas' => 1,
 	'fbconnect' => 0,
-	'scope' => 'offline_access,create_event,manage_pages,user_groups'
+	'scope' => 'create_event,manage_pages,user_groups'
 	//'redirect_uri' => ""
 ));
 
