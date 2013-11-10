@@ -1,5 +1,10 @@
 This is a Facebook Application you can use to subscribe to an iCalendar file which then gets regularly checked for updates. When new events in the calendar become available, it will create a facebook event in your name.
 
-currently the app is online at https://www.facebook.com/pages/Calendar-to-Event/158110800961417
+The app page will be online at https://www.facebook.com/pages/Calendar-to-Events-Importer-Community/536493229767772 .
 
-For any questions, please contact Mauro Bieg over facebook.
+For any questions, please contact Jamma Tino Schwarze over Facebook.
+
+Many thanks to Mauro Bieg who created this app initially!
+
+The original app may be found here: https://www.facebook.com/pages/Calendar-to-Event/158110800961417
+but will probably stop working in the future because of pending changes to the Facebook API.
