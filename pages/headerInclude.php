@@ -17,6 +17,8 @@
 					<ul class="topMenu">
 						<li><a href="index.php?action=showSubscriptionList">Subscriptions List</a></li>
 						<li><a href="index.php?action=showDocs">Docs</a></li>
+						<li><a href="index.php?action=showPolicy">Privacy policy</a></li>
+						<li><a href="index.php?action=showImprint">Imprint</a></li>
 					</ul>
 				</div>
 			</div>

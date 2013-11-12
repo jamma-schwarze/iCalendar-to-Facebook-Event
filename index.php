@@ -59,8 +59,8 @@ if ($fbUserId) {
 			case "showPolicy":
 				require "pages/showPolicy.php";
 				break;
-			case "showPricing":
-				require "pages/showPricing.php";
+			case "showImprint":
+				require "pages/showImprint.php";
 				break;
 			default:
 				//if $action == "showSubscriptionList"
