@@ -22,6 +22,8 @@ class standardModule extends Module{
                         }
                 }
                 
+		$imageProperty = $database->getImageProperty( $sub->getSubId() );
+
 		foreach ($sub->eventArray as &$e) {
                         
 			$e['fbName'] = mb_substr($e['calSUMMARY'], 0, $config['maxFbTitleLength']);
@@ -53,7 +55,6 @@ class standardModule extends Module{
 			else
 				$e['fbPrivacy'] = "OPEN";
 			
-			$imageProperty = $database->getImageProperty( $sub->getSubId() );
 			if ($imageProperty) {
 				$e['imageFileUrl'] = $e[ $imageProperty ];
 			}
