@@ -10,28 +10,26 @@ include 'headerInclude.php';
 <h4>Example: Google Calendar</h4>
 <p>Most calendars export to the iCalendar format, usually a file with the suffix .ics. For example, to get your Google Calendar URL: in <a href="http://calendar.google.com/">Google Calendar</a> go to Settings -> Calendars -> choose a calendar -> public ICAL.</p>
 
-<?php if (false) { ?>
 <h4 id="images">Images</h4>
-<p>If some of the events in your iCalendar file have a special <a href="http://en.wikipedia.org/wiki/ICalendar#Calendar_extensions" target="_blank">X-field</a> that cointains an URL which points to an image file, you can enter the name of that field in the 'Picture' field in the advanced options of this App. For example if your ics file looks like <a href="http://www.google.com/support/calendar/bin/answer.py?answer=48526" target="_blank">the following</a>
+<p>If some of the events in your iCalendar file have a special <a href="http://en.wikipedia.org/wiki/ICalendar#Calendar_extensions" target="_blank">X-field</a> that cointains an URL which points to an image file, you can enter the name of that field in the 'Picture' field in the advanced options of this App. For example if your ics file looks like the following</a>
 <p><code>
 BEGIN:VEVENT<br/>
 DTSTART;VALUE=DATE:20060704<br/>
 DTEND;VALUE=DATE:20060705<br/>
 SUMMARY:Independence Day<br/>
-X-GOOGLE-CALENDAR-CONTENT-URL:http://www.google.com/logos/july4th06.gif<br/>
+ATTACH:http://www.google.com/logos/july4th06.gif<br/>
 END:VEVENT<br/>
 </code></p>
-then you would write X-GOOGLE-CALENDAR-CONTENT-URL in the Picture field in the <i>advanced options</i> of a new subscription or click <i>edit</i> for an existing one. Or you can write ATTACH if you have attached an image by URL.</p>
+then you would write ATTACH in the Picture field in the <i>advanced options</i> of a new subscription or click <i>edit</i> for an existing one. Or you can write the name of any other header found in your ICS file which contains an URL.</p>
 
 <p>If you're using Google Calendar you can do the following:
 	<ol>
 		<li>in the iCalendar-to-Event app, in Advanced options (or Edit for an existing subscription), write 'ATTACH' (without the quotations marks) in the Picture field</li>
-		<li>in Google Calendar, click on the Labs icon in the upper right corner (the green potion)</li>
+		<li>in Google Calendar click on the Labs icon in the upper right corner (the green potion)</li>
 		<li>enable the Event attachments feature.</li>
-		<li>now, when you create a new event you can add an attachement. choose an image</li>
+		<li>now, when you create a new event you can add an attachement. Choose an image.</li>
 	</ol>
 </p>
-<?php } ?>
 
 <h4 id="reactivate">Subscription was deactivated</h4>
 <p>If the app always encounters an error when updating a subscription for an extended period of time, that subscription will be deactivated. It will say 'deactivated' in the iCalendar-to-Event app subscriptions list. You can try to reactivate it there which will only work if the error has been fixed. This is done as to not bother my server with checking lots of ics-files that don't work and aren't used anymore.</p>
@@ -58,9 +56,11 @@ then you would write X-GOOGLE-CALENDAR-CONTENT-URL in the Picture field in the <
 <h4>Planned Features</h4>
 <p>Here is a list of planned features and options that are not yet supported:</p>
 <ul class="list">
-<!-- <li>support recurring events in ics files (there's a <a target="_blank" href="http://www.pledgie.com/campaigns/13800">fundraiser for that</a>)</li>
-<li>associate a picture with a subscription which then will be added to every event created</li> -->
+<!-- <li>support recurring events in ics files (there's a <a target="_blank" href="http://www.pledgie.com/campaigns/13800">fundraiser for that</a>)</li> -->
+<li>associate a picture with a subscription which then will be added to every event created</li>
 <li>set your default RSVP: not attending / attending</li>
+<li>support cover images (currently profile picture only)</li>
+<li>allow adding images later (currently, they will not be added to FB)</li>
 <!-- <li>invite fans</li> -->
 </ul>
 
