@@ -17,7 +17,7 @@ try {
 		$pageNames[ $page['id'] ] = $page['name'];
 	}
 	foreach ($userGroups['data'] as $group) {
-		if ($group['administrator'] == "true") {
+		if (isset ($group['administrator']) && $group['administrator'] == "true") {
 			$pageNames[ $group['id'] ] = $group['name'];
 		}
 	}
