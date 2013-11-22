@@ -16,6 +16,7 @@ if( isset($_GET['editSub']) && isset($_GET['subId']) ) {
 	
 	$subName = $sub->subName;
 	$imageProperty = $sub->imageProperty;
+	$iCalendarUrl = $sub->calUrl;
 } else {
 	$editSub = false;
 	
@@ -84,7 +85,13 @@ if ( isset($_GET['error']) ) {
 		<input type="text" name="subName" value="<?php echo $subName; ?>" />
 	</div>
 	
-<?php if(!$editSub) { ?>
+<?php if($editSub) { ?>
+	<div class="property">
+		<div class="label">URL/Web address of the iCalendar file&#58;</div>
+		<p class="labelText">The URL cannot be changed - you need to delete the subscription and create a new one.</p>
+		<p><a href="<?php echo $iCalendarUrl; ?>" target="_new"><?php echo $iCalendarUrl; ?></a></p>
+	</div>
+<?php } else { ?>
 	<div class="property">
 		<div class="label">URL/Web address of the iCalendar file&#58;</div>
 		<input type="text" name="iCalendarUrl" value="<?php echo $iCalendarUrl; ?>" id="iCalendarUrlInput" />
