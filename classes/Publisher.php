@@ -39,7 +39,7 @@ class Publisher {
 			    'access_token' => $token,
 			);
 			
-			if ($row->state == 'new') {
+			if ($row->state == 'new' || $row->fbEventId == null) {
 				$action = "create";
 				if( isset($row->fbPageId) && $row->fbPageId ) {
 					$fbEventArray['page_id'] = $row->fbPageId;
