@@ -3,7 +3,7 @@
 require_once 'include/initialize.php';
 
 if ($config['debugWithoutFacebook'])
-	$fbUserId = 713344833;
+	$fbUserId = $config['debugWithoutFacebookUserId'];
 else
 	$fbUserId = $facebook->getUser();
 
