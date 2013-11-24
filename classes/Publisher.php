@@ -57,12 +57,28 @@ class Publisher {
 			
 			if( isset($row->imageFileUrl) ) {
 				$file = tempnam('tmp/images/', $row->ourEventId.'_');
-				if (!$file)
+				if (!$file) {
 					$logger->error('Could not create file in tmp/images.');
-				$imageContent = file_get_contents($row->imageFileUrl, null, null, null, $config['maxImageFileLength']);
-				if ($imageContent) {
-					file_put_contents ($file, $imageContent);
-					$fbEventArray[basename($file)] = '@'.realpath($file);
+				} else {
+					$imageContent = file_get_contents($row->imageFileUrl, null, null, null, $config['maxImageFileLength']);
+					if ($imageContent) {
+						file_put_contents ($file, $imageContent);
+						# sanity check file
+						if (filesize($file) > 11)
+						{
+							# perform sanity check: determine image type (avoid errors from Facebook)
+							$it = exif_imagetype($file);
+							if ($it == 1 || $it == 2 || $it == 3) {
+								$fbEventArray[basename($file)] = '@'.realpath($file);
+							} else {
+								$logger->warning("Error adding ".$row->imageFileUrl.": File does not seem to be a GIF, PNG or JPEG.");
+							}
+						} else {
+							$logger->warning("Error downloading ".$row->imageFileUrl.": File too small.");
+						}
+					} else {
+						$logger->warning("Error downloading ".$row->imageFileUrl.".");
+					}
 				}
 			} else {
 				$imageContent = false;
