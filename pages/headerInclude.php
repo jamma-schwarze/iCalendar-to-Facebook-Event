@@ -15,8 +15,8 @@
 				<div class="titleBar">
 					<div id="uberTitle"><a href="http://www.facebook.com/apps/application.php?id=569405306473689">iCalendar to Facebook Importer</a></div>
 					<ul class="topMenu">
+						<li><a href="index.php?action=showDocs">About</a></li>
 						<li><a href="index.php?action=showSubscriptionList">Subscriptions List</a></li>
-						<li><a href="index.php?action=showDocs">Docs</a></li>
 						<li><a href="index.php?action=showPolicy">Privacy policy</a></li>
 						<li><a href="index.php?action=showImprint">Imprint</a></li>
 					</ul>

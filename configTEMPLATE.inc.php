@@ -21,6 +21,7 @@ $config = Array(
 
 	"debugMode" => true,
 	"debugWithoutFacebook" => false,
+	"debugWithoutFacebookUserId" => 0, # set userid for debugging here
 
 	"logFile" => "log/log.txt",
 	"logMaxFileSize" => 100000,
