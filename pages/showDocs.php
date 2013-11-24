@@ -1,11 +1,12 @@
 <?php
-
 include 'headerInclude.php';
 ?>
 
 
 <h2>About</h2>
-<p>With this app you can subscribe to an <a href="http://en.wikipedia.org/wiki/ICalendar">iCalendar</a> file which then gets regularly checked for updates. When new events in the calendar become available, it will create a facebook event in your name. This works also for Facebook pages and groups where you are an administrator.</p>
+<p>With this app you can subscribe to a public <a href="http://en.wikipedia.org/wiki/ICalendar">iCalendar</a> URL which then gets regularly checked for updates. When new events in the calendar become available, it will create a facebook event in your name. This works also for Facebook pages and groups where you are an administrator.</p>
+
+<p>This app requires permissions to create events in your name and manage pages. The latter is neccessary because Facebook does not support a special "create events for pages" permission.</p>
 
 <h4>Example: Google Calendar</h4>
 <p>Most calendars export to the iCalendar format, usually a file with the suffix .ics. For example, to get your Google Calendar URL: in <a href="http://calendar.google.com/">Google Calendar</a> go to Settings -> Calendars -> choose a calendar -> public ICAL.</p>
@@ -60,7 +61,8 @@ then you would write ATTACH in the Picture field in the <i>advanced options</i> 
 <li>associate a picture with a subscription which then will be added to every event created</li>
 <li>set your default RSVP: not attending / attending</li>
 <li>support cover images (currently profile picture only)</li>
-<li>allow adding images later (currently, they will not be added to FB)</li>
+<li>support deleting events</li>
+<li>remind the user to renew his/her access token once in a while (not neccessary for pages)</li>
 <!-- <li>invite fans</li> -->
 </ul>
 
