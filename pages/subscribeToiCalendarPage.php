@@ -114,7 +114,7 @@ if ( isset($_GET['error']) ) {
 			}
 			
 			foreach ($userGroups['data'] as $group) {
-				if ($group['administrator'] == "true") {
+				if (isset ($group['administrator']) && ($group['administrator'] == "true")) {
 					echo '<option value="' . $group['id'] . '"';
 					
 					if ($group['id'] == $pageId)

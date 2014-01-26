@@ -55,7 +55,7 @@ class standardModule extends Module{
 			else
 				$e['fbPrivacy'] = "OPEN";
 			
-			if ($imageProperty) {
+			if ($imageProperty && isset ($e[$imageProperty])) {
 				$e['imageFileUrl'] = $e[ $imageProperty ];
 			}
 		}
