@@ -32,9 +32,9 @@ class Controller {
 	public function importSub($subId){
 		global $database;
 
-                //download and parse iCal-file
-                $calUrl = $database->getCalUrl($subId);
-                $this->setImporter($calUrl, $subId);
+		$sub = $database->getSubscription($subId);
+                //downloads and parses iCal-file
+                $this->setImporter(NULL, $sub);
 		
                 $moduleNames = array();
                 $STH = $database->getModules($subId);
@@ -68,16 +68,28 @@ class Controller {
                 }
 	}
 	
-	
-	private function setImporter($calUrl, $subId = NULL) {
+	// pass either calUrl or sub
+	private function setImporter($calUrl, $sub = null) {
 		global $config;
 		global $database;
 		
-		$imageProperty = $database->getImageProperty($subId);
-		if ($imageProperty) {
-			$eventXProperties = array($imageProperty);
+		if ($sub != null) {
+			$imageProperty = $sub->imageProperty;
+			if ($imageProperty) {
+				$eventXProperties = array($imageProperty);
+			} else {
+				$eventXProperties = null;
+			}
+			$updateWindowDays = $sub->updateWindowDays;
+			if ($updateWindowDays == null) {
+				$updateWindowDays = $config['defaultUpdateWindow'];
+			}
+			$calUrl = $sub->calUrl;
+			$subId = $sub->subId;
 		} else {
+			$updateWindowDays = $config['defaultUpdateWindow'];
 			$eventXProperties = null;
+			$subId = null;
 		}
 		
 		$this->importer = new iCalcreatorImporter(); //or qCalImporter()
@@ -85,7 +97,7 @@ class Controller {
 		$this->importer->downloadAndParse(
 				$calUrl,
 				strtotime( $config['defaultReccurWindowOpen'] ), 
-				strtotime( $config['defaultWindowClose'] ),
+				strtotime("+$updateWindowDays days"),
 				$subId,
 				$eventXProperties
 			);

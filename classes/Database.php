@@ -415,14 +415,23 @@ class Database {
 		return $STH;
 	}
 	
-	public function getSubscription($subId, $fbUserId) {
+	public function getSubscription($subId, $fbUserId = null) {
 		
-		$STH = $this->DBH->prepare("
-			SELECT *
-			FROM subscriptions 
-			WHERE subId = ? AND fbUserId = ?
-		");
-		$STH->execute(array($subId, $fbUserId));
+		if ($fbUserId != null) {
+			$STH = $this->DBH->prepare("
+				SELECT *
+				FROM subscriptions 
+				WHERE subId = ? AND fbUserId = ?
+			");
+			$STH->execute(array($subId, $fbUserId));
+		} else {
+			$STH = $this->DBH->prepare("
+				SELECT *
+				FROM subscriptions 
+				WHERE subId = ?
+			");
+			$STH->execute(array($subId));
+		}
 		
 		$STH->setFetchMode(PDO::FETCH_OBJ);
 		$row = $STH->fetch();
@@ -437,11 +446,11 @@ class Database {
 		
 		$STH = $this->DBH->prepare("
 			UPDATE subscriptions
-			SET subName = ?, imageProperty = ?
+			SET subName = ?, imageProperty = ?, updateWindowDays = ?
 			WHERE subId = ? AND fbUserId = ?
 		");
 		
-		$data = Array($post['subName'], $post['imageProperty'], $post['subId'], $fbUserId);
+		$data = Array($post['subName'], $post['imageProperty'], $post['updateWindowDays'], $post['subId'], $fbUserId);
 		$STH->execute($data);
 	}
 	

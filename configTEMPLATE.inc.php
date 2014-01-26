@@ -36,6 +36,10 @@ $config = Array(
 	// events with DTSTART outside this window are ignored by default
     "defaultWindowOpen" => "now",
 	"defaultWindowClose" => "+3 months",
+	// default update window: 3 months
+	"defaultUpdateWindow" => 90,
+	// maximum size of update window
+	"updateWindowMax" => 360,
     "defaultReccurWindowOpen" => "-4 years", //recurring events won't be calculated if the DTSTART of the original event is earlier than set value
 
 	//time in seconds to sleep before processing more events (fb limits)

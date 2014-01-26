@@ -31,6 +31,7 @@ CREATE TABLE subscriptions (
 	subName VARCHAR(255) NOT NULL,
 	fbUserId BIGINT NOT NULL,
 	calUrl VARCHAR(255) NOT NULL,
+	updateWindowDays INT,
 	fbPageId BIGINT NOT NULL,
 	fbPageAccessToken VARCHAR(32000),
 	imageProperty VARCHAR(255),

@@ -17,6 +17,7 @@ if( isset($_GET['editSub']) && isset($_GET['subId']) ) {
 	$subName = $sub->subName;
 	$imageProperty = $sub->imageProperty;
 	$iCalendarUrl = $sub->calUrl;
+	$updateWindowDays = $sub->updateWindowDays;
 } else {
 	$editSub = false;
 	
@@ -35,6 +36,11 @@ if( isset($_GET['editSub']) && isset($_GET['subId']) ) {
 	else
 		$iCalendarUrl = '';
 	
+	if( isset($_GET['updateWindowDays']))
+		$updateWindowDays = $_GET['updateWindowDays'];
+	else
+		$updateWindowDays = '';
+
 	if( isset($_GET['pageId']))
 		$pageId = $_GET['pageId'];
 	else
@@ -85,6 +91,11 @@ if ( isset($_GET['error']) ) {
 		<input type="text" name="subName" value="<?php echo $subName; ?>" />
 	</div>
 	
+	<div class="property">
+	<div class="label">Update window (events up to that many days in the future will be imported - max. <?php echo $config['updateWindowMax']; ?>, default 90 if left empty):</div>
+		<input type="text" name="updateWindowDays" value="<?php echo $updateWindowDays; ?>" size="4" />
+	</div>
+	
 <?php if($editSub) { ?>
 	<div class="property">
 		<div class="label">URL/Web address of the iCalendar file&#58;</div>
@@ -132,9 +143,9 @@ if ( isset($_GET['error']) ) {
 		?>
 	</div>
 	
+<?php } ?>		
 	<div id="advancedOptionsLink"><a href="#">➝ Advanced options</a></div>
 	<div id="advancedOptionsDiv" style="display: none">
-<?php } ?>		
 		<div class="property">
 			<div class="label">Image&#58;
 				<p class="labelText">If some of the events in your iCalendar file have a special <a href="http://en.wikipedia.org/wiki/ICalendar#Calendar_extensions" target="_blank">X-field</a> that cointains an URL which points to an image file, you can enter the name of that field here. e.g. <a href="http://www.google.com/support/calendar/bin/answer.py?answer=48526" target="_blank">X-GOOGLE-CALENDAR-CONTENT-URL</a> or ATTACH if that contains an URL.</p>
@@ -151,7 +162,7 @@ if ( isset($_GET['error']) ) {
                         </div>
                 </div>
                 -->
-		
+	</div>	
 <?php
 if(!$editSub) {		
 	echo '</div><input class="submitButton" type="submit" value="Subscribe" />';
