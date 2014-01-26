@@ -8,8 +8,19 @@ include 'headerInclude.php';
 
 <p>This app requires permissions to create events in your name and manage pages. The latter is neccessary because Facebook does not support a special "create events for pages" permission.</p>
 
+<p>Note: You do not add the app itself to your page, but access the app and create a subscription there and configure it to create events on your page.</p>
+
 <h4>Example: Google Calendar</h4>
 <p>Most calendars export to the iCalendar format, usually a file with the suffix .ics. For example, to get your Google Calendar URL: in <a href="http://calendar.google.com/">Google Calendar</a> go to Settings -> Calendars -> choose a calendar -> public ICAL.</p>
+
+<h4>Migrating from Calendar to Event</h4>
+
+<p>If you have been using the original "Calendar to Event" by Mauro Bieg, there are two ways to migrate:</p>
+<ol>
+<li>Deactivate your subscription at the <a href="http://calendartofacebook.project21.ch/">Calendar to Event</a>, then <a href="index.php?action=showSubscriptionList">add the subscription here</a>. You will get duplicate events - be sure to delete the event which has been created earliert (by Mauro's app) or delete all future events before adding/updating the subscription.</li>
+<li>Delete your subscription at the <a href="http://calendartofacebook.project21.ch/">Calendar to Event</a> - this will <strong>DELETE</strong> all events created by that app. Afterwards, <a href="index.php?action=showSubscriptionList">add a new subscription here</a>.</li>
+</ol>
+<p>There's no easier way.</p>
 
 <h4 id="images">Images</h4>
 <p>If some of the events in your iCalendar file have a special <a href="http://en.wikipedia.org/wiki/ICalendar#Calendar_extensions" target="_blank">X-field</a> that cointains an URL which points to an image file, you can enter the name of that field in the 'Picture' field in the advanced options of this App. For example if your ics file looks like the following</a>
@@ -57,13 +68,11 @@ then you would write ATTACH in the Picture field in the <i>advanced options</i> 
 <h4>Planned Features</h4>
 <p>Here is a list of planned features and options that are not yet supported:</p>
 <ul class="list">
-<!-- <li>support recurring events in ics files (there's a <a target="_blank" href="http://www.pledgie.com/campaigns/13800">fundraiser for that</a>)</li> -->
 <li>associate a picture with a subscription which then will be added to every event created</li>
 <li>set your default RSVP: not attending / attending</li>
 <li>support cover images (currently profile picture only)</li>
 <li>support deleting events</li>
 <li>remind the user to renew his/her access token once in a while (not neccessary for pages)</li>
-<!-- <li>invite fans</li> -->
 </ul>
 
 <h4>Contribute</h4>
@@ -71,6 +80,7 @@ then you would write ATTACH in the Picture field in the <i>advanced options</i> 
 
 <h4>Support</h4>
 <p>I'm working on this app in my spare time and running it on my private server. Please feel free to donate some money. Thank you!</p>
+<p>For questions regarding the application, please visit the application's Facebook page: <a href="https://www.facebook.com/pages/ICalendar-to-Events-Importer-Community/536493229767772">iCalendard to Events Importer Community</a>.</p>
 
 <h4>Credits</h4>
 <p>This is currently 95% based on the work of Mauro Bieg who was so kind as to share his development with the world.</p>
