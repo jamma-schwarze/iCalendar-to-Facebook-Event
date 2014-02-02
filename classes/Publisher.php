@@ -55,6 +55,8 @@ class Publisher {
 				throw new Exception("Event state is neither 'new' nor 'updated' but: '".$row->state."'");
 			}
 			
+			$cover_url = null;
+
 			if( isset($row->imageFileUrl) ) {
 				$file = tempnam('tmp/images/', $row->ourEventId.'_');
 				if (!$file) {
@@ -66,9 +68,14 @@ class Publisher {
 						# sanity check file
 						if (filesize($file) > 11)
 						{
-							# perform sanity check: determine image type (avoid errors from Facebook)
-							$it = exif_imagetype($file);
-							if ($it == 1 || $it == 2 || $it == 3) {
+							# perform sanity check: determine image type and dimension (avoid errors from Facebook)
+							list($img_width, $img_height, $it, $attr) = getimagesize($file);
+							if ($it == IMAGETYPE_JPEG || $it == IMAGETYPE_PNG || $it == IMAGETYPE_GIF) {
+								# check whether image is usable as cover URL
+								if ($img_width > 399 && $img_height >= 150) {
+									$cover_url = $row->imageFileUrl;
+									# note: for now, we post the picture anyway
+								}
 								$fbEventArray[basename($file)] = '@'.realpath($file);
 							} else {
 								$logger->warning("Error adding ".$row->imageFileUrl.": File does not seem to be a GIF, PNG or JPEG.");
@@ -110,6 +117,24 @@ class Publisher {
                                 }
                         }
 			
+			if ($cover_url != null) {
+				try {
+					$coverArr = array ("cover_url" => $cover_url);
+					$response = $facebook->api("/$fbEventId", 'post', $coverArr);
+					if ($response) {
+						$logger->info("Cover image updated on Facebook. fbEventId: $fbEventId, image url: $cover_url");
+					} else {
+						$logger->warning("Could not update cover image $cover_url for event $fbEventId on Facebook.", $e);
+					}
+				} catch (Exception $e) {
+					if ($propagateExceptions) {
+						throw e;
+					} else {
+						$logger->warning("Could not update cover image $cover_url for event $fbEventId on Facebook.", $e);
+					}
+				}
+			}
+
 			if( isset($file) && file_exists($file) )
 				unlink($file);
 			
