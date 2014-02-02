@@ -92,7 +92,7 @@ if ( isset($_GET['error']) ) {
 	</div>
 	
 	<div class="property">
-	<div class="label">Update window (events up to that many days in the future will be imported - max. <?php echo $config['updateWindowMax']; ?>, default 90 if left empty):</div>
+	<div class="label">Update window (events up to that many days in the future will be imported - max. <?php echo $config['updateWindowMax']; ?>, default <?php echo $config['defaultUpdateWindow']; ?> if left empty):</div>
 		<input type="text" name="updateWindowDays" value="<?php echo $updateWindowDays; ?>" size="4" />
 	</div>
 	
