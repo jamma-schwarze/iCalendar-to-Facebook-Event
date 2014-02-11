@@ -14,6 +14,7 @@ class Publisher {
 		global $logger;
 		global $facebook;
 		global $config;
+		global $propagateExceptions;
 		
 		$STH = $database->selectUserIdAndAccessToken($subId);
 		$row = $STH->fetch();
@@ -29,6 +30,13 @@ class Publisher {
 			
 			$logger->setCurrentOurEventId($row->ourEventId);
 			
+			$rowToken = $token;
+
+			// use page access token for pages (cover image updating needs it!)
+			if (isset($row->fbPageId) && $row->fbPageId && isset($row->fbPageAccessToken)) {
+				$rowToken = $row->fbPageAccessToken;
+			}
+			
 			$fbEventArray = array(
 			    'name' => $row->fbName,
 			    'description' => $row->fbDescription,
@@ -36,7 +44,7 @@ class Publisher {
 			    'end_time' => date('c',$row->fbEndTime),
 			    'location' => $row->fbLocation,
 			    'privacy_type' => $row->fbPrivacy, //or 'privacy' ?
-			    'access_token' => $token,
+			    'access_token' => $rowToken,
 			);
 			
 			if ($row->state == 'new' || $row->fbEventId == null) {
@@ -54,7 +62,7 @@ class Publisher {
 			} else {
 				throw new Exception("Event state is neither 'new' nor 'updated' but: '".$row->state."'");
 			}
-			
+
 			$cover_url = null;
 
 			if( isset($row->imageFileUrl) ) {
@@ -71,6 +79,7 @@ class Publisher {
 							# perform sanity check: determine image type and dimension (avoid errors from Facebook)
 							list($img_width, $img_height, $it, $attr) = getimagesize($file);
 							if ($it == IMAGETYPE_JPEG || $it == IMAGETYPE_PNG || $it == IMAGETYPE_GIF) {
+								$logger->info("Image ".$row->imageFileUrl." has dimension $img_width x $img_height");
 								# check whether image is usable as cover URL
 								if ($img_width > 399 && $img_height >= 150) {
 									$cover_url = $row->imageFileUrl;
@@ -91,6 +100,8 @@ class Publisher {
 				$imageContent = false;
 			}
 			
+			$fbEventId = null;
+
                         try {
                                 $response = $facebook->api($page, 'post', $fbEventArray);
 
@@ -105,6 +116,7 @@ class Publisher {
                                         $database->setEventUpdated($row->ourEventId, $fbEventId);
                                         $logger->info("Event ".$action."d on facebook. fbEventId: " . $fbEventId);
                                 } else {
+					$fbEventId = null;
                                         throw new Exception("Response when trying to ".$action." event was negative.");
                                 }
                         } catch (Exception $e) {
@@ -113,13 +125,16 @@ class Publisher {
                                         throw $e;
                                 } else {
                                         //if only an update failed go on with the other events of the subscription
+					$fbEventId = null;
                                         $logger->warning("Could not update event on Facebook.", $e);
                                 }
                         }
 			
+			# we've got a cover url -> try to update
 			if ($cover_url != null) {
 				try {
-					$coverArr = array ("cover_url" => $cover_url);
+					$coverArr = array ("cover_url" => $cover_url,
+						"access_token" => $rowToken);
 					$response = $facebook->api("/$fbEventId", 'post', $coverArr);
 					if ($response) {
 						$logger->info("Cover image updated on Facebook. fbEventId: $fbEventId, image url: $cover_url");
@@ -128,8 +143,9 @@ class Publisher {
 					}
 				} catch (Exception $e) {
 					if ($propagateExceptions) {
-						throw e;
+						throw $e;
 					} else {
+						// warn, but do not abort
 						$logger->warning("Could not update cover image $cover_url for event $fbEventId on Facebook.", $e);
 					}
 				}

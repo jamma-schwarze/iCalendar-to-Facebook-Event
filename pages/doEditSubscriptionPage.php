@@ -25,7 +25,7 @@ try {
 } catch (Exception $e) {
 	
 	$errorMsg = urlencode('<p>Could not change subscription because there was an error.</p>' . $e->getMessage());
-	header("Location: " . 'index.php?action=showSubscribeToiCalendar&editSub=1&error=1&errorMsg=' . $errorMsg . $fields);
+	header("Location: " . 'index.php?action=showSubscribeToiCalendar&editSub=1&error=1&errorMsg=' . $errorMsg);
 }
 
 ?>
