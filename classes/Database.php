@@ -276,7 +276,7 @@ class Database {
 		//selects events to be created or updated (plus the fbPageId)
 		
 		$STH = $this->DBH->prepare("
-			SELECT events.*, subscriptions.fbPageId
+			SELECT events.*, subscriptions.fbPageId, subscriptions.fbPageAccessToken
 			FROM events, subscriptions 
 			WHERE events.subId = ? AND (events.state = 'updated' OR events.state = 'new') AND subscriptions.subId = ?
 		");
@@ -444,13 +444,18 @@ class Database {
 		if ($post['imageProperty'] == '')
 			$post['imageProperty'] = null;
 		
+		$updateWindowDays = null;
+
+		if (isset($post['updateWindowDays']))
+			$updateWindowDays = $post['updateWindowDays'];
+
 		$STH = $this->DBH->prepare("
 			UPDATE subscriptions
 			SET subName = ?, imageProperty = ?, updateWindowDays = ?
 			WHERE subId = ? AND fbUserId = ?
 		");
 		
-		$data = Array($post['subName'], $post['imageProperty'], $post['updateWindowDays'], $post['subId'], $fbUserId);
+		$data = Array($post['subName'], $post['imageProperty'], $updateWindowDays, $post['subId'], $fbUserId);
 		$STH->execute($data);
 	}
 	
