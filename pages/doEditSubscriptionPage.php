@@ -5,10 +5,14 @@ require_once "config.inc.php";
 try {
 	if (isset($_POST['updateWindowDays'])) {
 		$updateWindowDays = $_POST['updateWindowDays'];
-		if (! is_numeric ($updateWindowDays))
-			throw new Exception ("Update window needs to be a number.");
-		if ($updateWindowDays > $config['updateWindowMax'])
-			throw new Exception ("Update window must be at most ".$config['updateWindowMax'].".");
+		if (empty($updateWindowDays)) {
+			unset($_POST['updateWindowDays']);
+		} else {
+			if (! is_numeric ($updateWindowDays))
+				throw new Exception ("Update window needs to be a number.");
+			if ($updateWindowDays > $config['updateWindowMax'])
+				throw new Exception ("Update window must be at most ".$config['updateWindowMax'].".");
+		}
 	}
 
 	$database->updateSubscriptionData($_POST, $fbUserId);
