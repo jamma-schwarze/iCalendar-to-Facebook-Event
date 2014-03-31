@@ -9,7 +9,6 @@
 class Subscription {
 	private $subId;
 	private $subName;
-	private $finalTimezone;
 
 	private $calTZID;
 	private $calXWRTIMEZONE;
@@ -63,14 +62,6 @@ class Subscription {
 
 	public function setSubName($subName) {
 		$this->subName = $subName;
-	}
-
-	public function getFinalTimezone() {
-		return $this->finalTimezone;
-	}
-
-	public function setFinalTimezone($finalTimezone) {
-		$this->finalTimezone = $finalTimezone;
 	}
 
 	public function getCalTZID() {
