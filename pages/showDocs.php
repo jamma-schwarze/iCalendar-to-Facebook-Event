@@ -43,6 +43,8 @@ then you would write ATTACH in the Picture field in the <i>advanced options</i> 
 	</ol>
 </p>
 
+<p>If the image is at least 400x150 pixels, it will be added as a cover image automatically.</p>
+
 <h4 id="reactivate">Subscription was deactivated</h4>
 <p>If the app always encounters an error when updating a subscription for an extended period of time, that subscription will be deactivated. It will say 'deactivated' in the iCalendar-to-Event app subscriptions list. You can try to reactivate it there which will only work if the error has been fixed. This is done as to not bother my server with checking lots of ics-files that don't work and aren't used anymore.</p>
 
