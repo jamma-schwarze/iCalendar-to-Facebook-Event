@@ -13,7 +13,13 @@ class standardModule extends Module{
 		
 		$sub = $this->sub;
 		
-		$sub->setFinalTimezone( $this->getTimezone() );
+		$caltz = null;
+		# try using X-WR-TIMEZONE if no timezone was set for the calendar
+		# (iCalcreator already adjusted for the TZID)
+		if (is_null($sub->getCalTZID())
+		   && !is_null($sub->getCalXWRTIMEZONE()) ) {
+			$caltz = $sub->getCalXWRTIMEZONE();
+		}
                 
                 //delete events that are too old
                 foreach ($sub->eventArray as $key => $e) {
@@ -35,12 +41,12 @@ class standardModule extends Module{
 			if( isset($e['calDTStartTZID']) )
 				$e['fbStartTime'] = $this->toFbTime( $e['calDTSTART'], $e['calDTStartTZID'] );
 			else
-				$e['fbStartTime'] = $this->toFbTime( $e['calDTSTART']);
+				$e['fbStartTime'] = $this->toFbTime( $e['calDTSTART'], $caltz);
 			
 			if( isset($e['calDTEndTZID']) )
 				$e['fbEndTime'] = $this->toFbTime( $e['calDTEND'], $e['calDTEndTZID'] );
 			else
-				$e['fbEndTime'] = $this->toFbTime( $e['calDTEND'] );
+				$e['fbEndTime'] = $this->toFbTime( $e['calDTEND'], $caltz );
 			
                         if ($e['fbStartTime'] == $e['fbEndTime']) {
                                 //event must have a duration
@@ -61,23 +67,6 @@ class standardModule extends Module{
 		}
 	}
 	
-	
-	private function getTimezone() {
-		// sets finalTimezone to either calTZID or calXWRTIMEZONE
-		
-		if ( !is_null($this->sub->getCalTZID()) ) {
-			$tz = $this->sub->getCalTZID();
-		} elseif ( !is_null($this->sub->getCalXWRTIMEZONE()) ) {
-			$tz = $this->sub->getCalXWRTIMEZONE();
-		}
-		
-		if( !isset($tz) )
-			$tz = 0;
-		
-		return $tz;
-	}
-	
-	
 	private function toFbTime($time, $eventTZ = null) {
 
 		# Facebook has UTC as default
@@ -87,7 +76,7 @@ class standardModule extends Module{
 		$timestamp = strtotime($time);
 		
 		# if event has a timezone set adjust to UTC
-		if (isset($eventTZ)) {
+		if (!is_null($eventTZ)) {
 			$calTz = new DateTimeZone($eventTZ);
 			$datetime = new DateTime("@$timestamp");
 			$tzOffset = timezone_offset_get($calTz, $datetime);
