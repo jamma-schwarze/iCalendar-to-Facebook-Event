@@ -35,7 +35,9 @@ if( isset($_GET['success']) ) {
 } elseif( isset($_GET['error']) ) {
 	echo '<div class="errorBox">';
 	echo '	<p>There has been an error.</p>';
-	echo htmlentities($_GET['errorMsg']);
+	if (isset ($_GET['errorMsg'])) {
+		echo htmlentities($_GET['errorMsg']);
+	}
 	
 	if ( isset($_GET['showUnsubscribeAnywayButton']) && $_GET['subId']) {
 		?>
